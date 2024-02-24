@@ -41,7 +41,14 @@ find_package(image_transport REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(Eigen3 REQUIRED NO_MODULE)
 find_package(Threads REQUIRED)
-find_package(OpenCV REQUIRED)
+
+if(DEFINED ENV{OPENCV_INSTALL_DIR})
+  find_package(OpenCV 4.6 REQUIRED PATHS $ENV{OPENCV_INSTALL_DIR})
+else()
+  message("OPENCV_INSTALL_DIR not set, searching in default location(s)")
+  find_package(OpenCV 4.6 REQUIRED)
+endif(DEFINED ENV{OPENCV_INSTALL_DIR})
+
 find_package(apriltag 3.2 REQUIRED)
 
 if(cv_bridge_VERSION VERSION_GREATER_EQUAL 3.3.0)
